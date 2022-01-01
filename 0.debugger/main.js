@@ -3,8 +3,8 @@ function main() {
     a();
     a();
     a();
-    d();
     e();
+    d();
 }
 
 function a() {
