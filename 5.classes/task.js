@@ -136,8 +136,8 @@ class Student {
 					// console.log(markSum);
 				});
 				this.averageSubject = markSum / subject.marks.length;
-				console.log(this.averageSubject);
-				return this.averageSubject;
+				console.log(this.averageSubject); //Тут значение есть
+				return this.averageSubject;	// Тут значение возвращается, а в месте вызова функции у меня undefined 
 			}
 			return "Несуществующий предмет";
 		});
@@ -161,11 +161,11 @@ class Subject {
 
 }
 
-const s = new Student('vafel');
+const s = new Student('vasya');
 s.addMark(5, 'biology');
 s.addMark(4, 'biology');
 s.addMark(3, 'biology');
 // console.log(s.subjects[0].marks);
 // console.log("=========================================================");
-console.log(s.getAverageBySubject('biology'));
+console.log(s.getAverageBySubject('biology'));		// При вызове получаю undefined, хотя в самой функцие переменная имеет значение. Не понимаю
 // console.log("=========================================================");
