@@ -128,14 +128,14 @@ class Student {
 	}
 
 	getAverageBySubject(subjectName) {
-		this.subjects.forEach((subject) => {				// Для каждого объекта Subject
-			if (subject.name === subjectName) {					// Поле имя темы === выбранное имя
-				let markSum = 0;
-				subject.marks.forEach(mark => {
-					markSum += mark;
+		this.subjects.forEach((subject) => {				// Для каждого объекта Subject (у студента есть массив предметов (это экземпляры класса "Предмет"))
+			if (subject.name === subjectName) {					// Поле имя предмета === выбранное имя предмета, по которому выбрать оценки
+				let markSum = 0;										// Сума оценок
+				subject.marks.forEach(mark => {					// Для каждой оценки
+					markSum += mark;									// добавить в суму
 					// console.log(markSum);
 				});
-				this.averageSubject = markSum / subject.marks.length;
+				this.averageSubject = markSum / subject.marks.length;		//ср значение. Записывал как сейчас, и пробовал в перевенную let result; , разницы нет
 				console.log(this.averageSubject); //Тут значение есть
 				return this.averageSubject;	// Тут значение возвращается, а в месте вызова функции у меня undefined 
 			}
