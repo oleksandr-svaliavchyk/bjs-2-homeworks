@@ -109,10 +109,10 @@ class Student {
 	addMark(mark, subject) {
 		if ((mark > 0) && (mark < 6)) {
 			if (this.subjects.length > 0) {
-				this.subjects.forEach(element => {
+				this.subjects.forEach((element, idx) => {
 					if (element.name === subject) {
 						element.addSubjectMark(subject, mark);
-					} else {
+					} else if (idx === this.subjects.length - 1) {
 						subject = new Subject(subject, mark);
 						this.subjects.push(subject);		// Создаю и кидаю в массив объект "Предмет,"
 					}
@@ -125,29 +125,44 @@ class Student {
 		else {
 			return ("Ошибка, оценка должна быть числом от 1 до 5");
 		}
+
 	}
 
 	getAverageBySubject(subjectName) {
+		this.averageSubject = "Несуществующий предмет";
 		this.subjects.forEach((subject) => {				// Для каждого объекта Subject (у студента есть массив предметов (это экземпляры класса "Предмет"))
 			if (subject.name === subjectName) {					// Поле имя предмета === выбранное имя предмета, по которому выбрать оценки
 				let markSum = 0;										// Сума оценок
 				subject.marks.forEach(mark => {					// Для каждой оценки
 					markSum += mark;									// добавить в суму
-					// console.log(markSum);
 				});
 				this.averageSubject = markSum / subject.marks.length;		//ср значение. Записывал как сейчас, и пробовал в перевенную let result; , разницы нет
-				console.log(this.averageSubject); //Тут значение есть
-				return this.averageSubject;	// Тут значение возвращается, а в месте вызова функции у меня undefined 
+				// return this.averageSubject;	// Тут значение возвращается, а в месте вызова функции у меня undefined, почему ? Разве я не могу ретурн сделать где хочу?
 			}
-			return "Несуществующий предмет";
+			// return this.averageSubject; Тут так же возвращает андеф.
 		});
+		return this.averageSubject;
+	}
+
+	getAverage() {
+		let sum = 0, amount = 0, count = 0;
+		this.subjects.forEach(element => {
+			element.marks.forEach(mark => {
+				// console.log("mark" + (count++), +" " + mark)
+				sum += mark;
+				amount++;
+			});
+		});
+
+		return sum / amount;
 	}
 }
 
 class Subject {
 	constructor(subjectName, subjectMark) {
 		this.name = subjectName;
-		this.marks = []
+		this.marks = [];
+
 		if (!(subjectName === undefined)) {
 			this.marks.push(subjectMark);
 		}
@@ -160,12 +175,3 @@ class Subject {
 	}
 
 }
-
-const s = new Student('vasya');
-s.addMark(5, 'biology');
-s.addMark(4, 'biology');
-s.addMark(3, 'biology');
-// console.log(s.subjects[0].marks);
-// console.log("=========================================================");
-console.log(s.getAverageBySubject('biology'));		// При вызове получаю undefined, хотя в самой функцие переменная имеет значение. Не понимаю
-// console.log("=========================================================");
