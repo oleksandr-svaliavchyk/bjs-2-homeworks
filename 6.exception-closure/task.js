@@ -39,10 +39,9 @@ class Triangle {
 
 function getTriangle(a, b, c) {
 	try {
-		let t = new Triangle(a, b, c)
-		return t;
+		return new Triangle(a, b, c);
 	} catch (Error) {
-		let obj = {
+		return {
 			getArea() {
 				return 'Ошибка! Треугольник не существует';
 			},
@@ -50,6 +49,5 @@ function getTriangle(a, b, c) {
 				return 'Ошибка! Треугольник не существует';
 			}
 		}
-		return obj;
 	}
 }
