@@ -9,7 +9,6 @@ class AlarmClock {
 		if (!Number.isInteger(id)) {
 			throw new Error('Не правильный айди');
 		}
-
 		if (this.alarmCollection.some(element => {
 			if (element.id === id) {
 				return true;
@@ -60,7 +59,7 @@ class AlarmClock {
 		this.timerId = setInterval(() => {
 			this.alarmCollection.forEach(element => {
 				this.checkClock(element);
-			});
+			}, 30000);
 		});
 	}
 
@@ -82,3 +81,27 @@ class AlarmClock {
 		this.alarmCollection.length = 0;
 	}
 }
+
+//================================== Tests
+
+function testCase() {
+	let phoneAlarm = new AlarmClock();
+	phoneAlarm.start();
+	phoneAlarm.addClock('22:01', () => { console.log('Пора вставать') }, 1);
+	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 2);
+	try { phoneAlarm.addClock('21:54', () => { console.log('Иди умываться!') }); }
+	catch (error) {
+		console.lo
+	}
+	phoneAlarm.printAlarms();
+
+	phoneAlarm.addClock('22:02', () => {
+		console.log('Вставай а то проспишь!');
+		phoneAlarm.clearAlarms();
+		phoneAlarm.printAlarms();
+	}, 3);
+	phoneAlarm.addClock('21:15', () => { console.log('Пора вставать, а то проспишь') }, 1);
+
+}
+
+testCase();
