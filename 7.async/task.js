@@ -91,6 +91,10 @@ function testCase() {
 	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 2);
 	try { phoneAlarm.addClock('21:54', () => { console.log('Иди умываться!') }); }
 	catch (error) {
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 7f899e1090e2f2c72fc56f6ec19a92ce7d2af26b
 	}
 	phoneAlarm.printAlarms();
 
