@@ -1,12 +1,53 @@
 function cachingDecoratorNew(func) {
-  // Ваш код
+	// Ваш код
+	let cache = {};
+	return function wrapper(...rest) {
+		let result;
+		let key = rest.toString();
+		if (key in cache) {
+			result = 'Из кэша: ' + cache[key];
+			return result;
+		} else {
+			let keys = Object.keys(cache);
+			if (keys.length > 4) {
+				delete cache[keys[0]];
+			}
+			result = func(...rest);
+			cache[key] = result;
+			result = 'Вычисляем: ' + result;
+			return result;
+		}
+	}
+
 }
 
 
-function debounceDecoratorNew(func) {
-  // Ваш код
+function debounceDecoratorNew(func, ms) {
+	// Ваш код
+	let timer = null;
+
+	return function () {
+		if (timer === null) {
+			func();
+			timer = setTimeout(() => {
+				func();
+				timer = null;
+			}, ms);
+		}
+	}
 }
 
 function debounceDecorator2(func) {
-  // Ваш код
+	// Ваш код
 }
+
+
+const sendSignal = () => console.log("Сигнал отправлен");
+const upgradedSendSignal = debounceDecoratorNew(sendSignal, 2000);
+setTimeout(upgradedSendSignal); // Сигнал отправлен
+setTimeout(upgradedSendSignal, 300); // проигнорировано так как от последнего вызова прошло менее 2000мс (300 - 0 < 2000)
+setTimeout(upgradedSendSignal, 900); // проигнорировано так как времени от последнего вызова прошло: 900-300=600 (600 < 2000)
+setTimeout(upgradedSendSignal, 1200); // проигнорировано так как времени от последнего вызова прошло: 1200-900=300 (300 < 2000)
+setTimeout(upgradedSendSignal, 2300); // проигнорировано так как времени от последнего вызова прошло: 2300-1200=1100 (1100 < 2000)
+setTimeout(upgradedSendSignal, 4400); // Сигнал отправлен так как времени от последнего вызова прошло: 4400-2300=2100 (2100 > 2000)
+setTimeout(upgradedSendSignal, 4500);
