@@ -9,11 +9,7 @@ class AlarmClock {
 		if (!Number.isInteger(id)) {
 			throw new Error('Не правильный айди');
 		}
-		if (this.alarmCollection.some(element => {
-			if (element.id === id) {
-				return true;
-			}
-		})) {
+		if (this.alarmCollection.some(element => element.id === id)) {
 			console.error('Такой айди звонка уже существует ');
 		} else {
 			this.alarmCollection.push({
@@ -25,13 +21,13 @@ class AlarmClock {
 	}
 
 	removeClock(id) {
-		this.alarmCollection.filter((element, idx) => {
-			if (element.id === id) {
-				this.alarmCollection.splice(idx, 1);
-				return 1;
-			}
-		});
-		return 0;
+		let len = this.alarmCollection.length;
+		let tmp = this.alarmCollection.filter(element => element.id !== id);
+		if (len > tmp.length) {
+			this.alarmCollection = tmp;
+			return true;
+		}
+		return false;
 	}
 
 	getCurrentFormattedTime() {
@@ -87,16 +83,24 @@ class AlarmClock {
 function testCase() {
 	let phoneAlarm = new AlarmClock();
 	phoneAlarm.start();
-	phoneAlarm.addClock('22:01', () => { console.log('Пора вставать') }, 1);
-	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 2);
+	phoneAlarm.addClock('22:01', () => { console.log('Пора вставать') }, 111);
+	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 222);
+	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 333);
+	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 444);
+	phoneAlarm.addClock('22:01', () => { console.log('Вставай уже') }, 555);
+
+	console.log(phoneAlarm.alarmCollection.length);
+	console.log(phoneAlarm.removeClock(222));
+	console.log(phoneAlarm.removeClock(223));
+	console.log(phoneAlarm.alarmCollection.length);
 	try { phoneAlarm.addClock('21:54', () => { console.log('Иди умываться!') }); }
 	catch (error) {
-<<<<<<< HEAD
-=======
-		
->>>>>>> 7f899e1090e2f2c72fc56f6ec19a92ce7d2af26b
 	}
 	phoneAlarm.printAlarms();
+
+	phoneAlarm.removeClock(111);
+	phoneAlarm.printAlarms();
+
 
 	phoneAlarm.addClock('22:02', () => {
 		console.log('Вставай а то проспишь!');

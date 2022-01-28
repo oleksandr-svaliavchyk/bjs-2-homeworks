@@ -7,16 +7,17 @@ function cachingDecoratorNew(func) {
 		if (key in cache) {
 			result = 'Из кэша: ' + cache[key];
 			return result;
-		} else {
-			let keys = Object.keys(cache);
-			if (keys.length > 4) {
-				delete cache[keys[0]];
-			}
-			result = func(...rest);
-			cache[key] = result;
-			result = 'Вычисляем: ' + result;
-			return result;
 		}
+
+		let keys = Object.keys(cache);
+		if (keys.length > 4) {
+			delete cache[keys[0]];
+		}
+		result = func(...rest);
+		cache[key] = result;
+		result = 'Вычисляем: ' + result;
+		return result;
+
 	}
 
 }
@@ -58,7 +59,7 @@ function debounceDecorator2(func, ms) {
 }
 
 let a = debounceDecorator2(() => { console.log('vasya'), 1000 });
-a.showCount();
+// a.showCount();
 
 
 const sendSignal = () => console.log("Сигнал отправлен");
