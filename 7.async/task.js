@@ -22,9 +22,8 @@ class AlarmClock {
 
 	removeClock(id) {
 		let len = this.alarmCollection.length;
-		let tmp = this.alarmCollection.filter(element => element.id !== id);
-		if (len > tmp.length) {
-			this.alarmCollection = tmp;
+		this.alarmCollection = this.alarmCollection.filter(element => element.id !== id);
+		if (len > this.alarmCollection.length) {
 			return true;
 		}
 		return false;
